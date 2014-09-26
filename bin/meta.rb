@@ -1,25 +1,14 @@
 #!/usr/bin/ruby
 require 'rubygems'
 require 'json'
-require 'pp'
 require 'date'
 require 'erb'
 
-class ListController
-  def initialize(list)
-    @list = list
-  end
+$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../lib")
+require 'ListController'
 
-  # This is only a helper method to access
-  # the object's (private) binding method
-  def get_binding
-    binding
-  end
-end
-
-
-template = 'meta.erb'
-file = 'meta.json'
+template = "#{File.dirname(__FILE__)}/../meta.erb"
+file = "#{File.dirname(__FILE__)}/../meta.json"
 baseUrl = 'http://www.test.bbc.co.uk/education/guides'
 
 json = File.read(file)

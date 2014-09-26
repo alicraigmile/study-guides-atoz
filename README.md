@@ -1,3 +1,5 @@
-To run:
+To run on mac:
 
-./meta.rb > meta.html && open meta.html
+bin/meta.rb > meta.html && open meta.html
+
+(on a modern linux box, replace 'open' with 'xdg-open')
