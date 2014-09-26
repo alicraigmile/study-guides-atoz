@@ -5,16 +5,27 @@ require 'pp'
 require 'date'
 require 'erb'
 
-#template = 'meta.erb'
+class ListController
+  def initialize(list)
+    @list = list
+  end
+
+  # This is only a helper method to access
+  # the object's (private) binding method
+  def get_binding
+    binding
+  end
+end
+
+
+template = 'meta.erb'
 file = 'meta.json'
 baseUrl = 'http://www.test.bbc.co.uk/education/guides'
 
 json = File.read(file)
 obj = JSON.parse(json)
 
-print "<link rel=\"stylesheet\" type=\"text/css\" href=\"meta.css\">"
-print "<table>"
-print "<tr><td>Title</td><td>ID</td><td>Author</td><td>Published</td></tr>"
+list = Array.new
 
 obj['contents'].each do |item| 
   title = item['title']
@@ -22,20 +33,27 @@ obj['contents'].each do |item|
   name = item['createdBy']['name']
   email = item['createdBy']['email']
 
-  d_string = item['modifiedDateTime']
-  d = DateTime.parse(d_string)
-  date = d.strftime('%d/%m/%Y')
+  datetimeString = item['modifiedDateTime']
+  datetime = DateTime.parse(datetimeString)
+  modifiedDate = datetime.strftime('%d/%m/%Y')
 
   url = "#{baseUrl}/#{fileId}"
-  email_url = "mailto:#{email}"
+  emailUrl = "mailto:#{email}"
 
-  #puts "<p><a href=\"#{url}\">#{title}</a> (#{fileId}) by <a href=\"#{email_url}\">#{name} &lt;#{email}&gt;</a> on #{date}.</p>\n"
-  puts "<tr><td><a href=\"#{url}\">#{title}</a></td><td><a href=\"#{url}\">#{fileId}</a></td><td><a href=\"#{email_url}\">#{name}</a></td><td>#{date}</td></tr>\n"
+  list.push({
+    :title        => title,
+    :fileId       => fileId,
+    :url          => url,
+    :name         => name,
+    :email        => email,
+    :emailUrl     => emailUrl,
+    :modifiedDate => modifiedDate
+  })
 
 end
 
+  controller = ListController.new(list)
 
-  #renderer = ERB.new(template)
-  #puts output = renderer.result)
+  renderer = ERB.new(File.read(template))
+  puts output = renderer.result(controller.get_binding)
 
-puts "</table>"
