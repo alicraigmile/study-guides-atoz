@@ -12,7 +12,7 @@
             </thead>
             <tbody>
               <% @list.each do |item| %>
-                <tr><td><a href="<%= item[:url] %>"><%= item[:title] %></a></td><td><a href="<%= item[:url] %>"><%= item[:fileId] %></a></td><td><a href="<%= item[:emailUrl] %>"><%= item[:name] %></a></td><td><%= item[:modified] %></td></tr>
+                <tr><td><a href="<%= item[:url] %>"><%= item[:title] %></a></td><td><a href="<%= item[:url] %>"><%= item[:fileId] %></a></td><td><a href="<%= item[:emailUrl] %>"><%= item[:name] %></a></td><td><%= item[:modifiedDate] %></td></tr>
               <% end %>
             </tbody>
 </table>
